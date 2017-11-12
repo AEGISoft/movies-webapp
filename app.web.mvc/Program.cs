@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿///
+/// tutorial : https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-view
+/// now at step: https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model
+/// publishing via heroku : http://codersblock.com/blog/how-to-run-net-on-heroku/ (use 'git bash' as CLI !)
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace app.web.mvc
 {
@@ -14,6 +14,15 @@ namespace app.web.mvc
     {
         public static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder().AddCommandLine(args).Build();
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseConfiguration(config)
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
             BuildWebHost(args).Run();
         }
 
